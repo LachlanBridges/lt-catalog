@@ -54,6 +54,7 @@ Tools to ingest LibraryThing exports into SQLite, enrich with reading-level meta
   - `library-data-enrich-levels --limit 200`
   - `library-data-capture-state`
   - `library-data-export-lt --since 2024-01-01 --fmt json`
+  - `library-data-query search "harry potter" --limit 10`
 
 - Docker (mount host data dir):
   - Ingest:

@@ -22,6 +22,15 @@ library-data-enrich-levels = "library_data.scripts.enrich_levels:main"
 library-data-export-lt = "library_data.scripts.export_lt:run_export"
 library-data-capture-state = "library_data.scripts.capture_playwright_state:main"
 library-data-nightly = "library_data.scripts.nightly:main"
+library-data-query = "library_data.scripts.query:main"
 
 [tool.setuptools.packages.find]
 include = ["library_data*"]
+[tool.black]
+line-length = 100
+target-version = ["py311", "py310"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I"]
+ignore = []
