@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 IMAGE ?= library-data
-DATA ?= $(PWD)/library-data
+DATA ?= $(PWD)/data
 
 .PHONY: help install ingest enrich export docker-build docker-ingest docker-enrich docker-export
 
@@ -32,21 +32,20 @@ docker-build:
 
 docker-ingest:
 	docker run --rm -it \
-	  -v "$(DATA):/app/library-data" \
-	  -e LIBRARY_DATA_DIR=/app/library-data \
+	  -v "$(DATA):/app/data" \
+	  -e LIBRARY_DATA_DIR=/app/data \
 	  $(if $(LT_TOKEN),-e LT_TOKEN=$(LT_TOKEN),) \
-	  $(IMAGE) library-data-ingest --file /app/library-data/$(FILE) $(if $(DB),--db $(DB),)
+	  $(IMAGE) library-data-ingest --file /app/data/$(FILE) $(if $(DB),--db $(DB),)
 
 docker-enrich:
 	docker run --rm -it \
-	  -v "$(DATA):/app/library-data" \
-	  -e LIBRARY_DATA_DIR=/app/library-data \
+	  -v "$(DATA):/app/data" \
+	  -e LIBRARY_DATA_DIR=/app/data \
 	  $(if $(LT_TOKEN),-e LT_TOKEN=$(LT_TOKEN),) \
 	  $(IMAGE) library-data-enrich-levels $(if $(DB),--db $(DB),) $(if $(LIMIT),--limit $(LIMIT),)
 
 docker-export:
 	docker run --rm -it \
-	  -v "$(DATA):/app/library-data" \
-	  -e LIBRARY_DATA_DIR=/app/library-data \
+	  -v "$(DATA):/app/data" \
+	  -e LIBRARY_DATA_DIR=/app/data \
 	  $(IMAGE) library-data-export-lt $(if $(SINCE),--since $(SINCE),) $(if $(COLLECTIONS),--collections $(COLLECTIONS),) $(if $(TAGS),--tags $(TAGS),) $(if $(SEARCH),--search $(SEARCH),) $(if $(FMT),--fmt $(FMT),)
-

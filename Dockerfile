@@ -21,14 +21,13 @@ RUN pip install --no-cache-dir -r requirements.txt \
 COPY . .
 
 # Default data root inside container; override by mounting volume and/or env
-ENV LIBRARY_DATA_DIR=/app/library-data
+ENV LIBRARY_DATA_DIR=/app/data
 
 # Ensure runtime dirs exist at build time (harmless at run)
-RUN python - <<'PY' \
-  && from library_data.config import ensure_dirs \
-  && ensure_dirs() \
+RUN python - <<'PY'
+from library_data.config import ensure_dirs
+ensure_dirs()
 PY
 
 # Default command shows available CLIs
 CMD ["python", "-c", "import sys;print('CLIs: library-data-ingest, library-data-enrich-levels, library-data-export-lt, library-data-capture-state'); print('Set LIBRARY_DATA_DIR or mount ./library-data as a volume.');"]
-

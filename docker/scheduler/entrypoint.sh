@@ -16,4 +16,3 @@ crontab "$CRON_FILE"
 echo "Installed crontab:" && cat "$CRON_FILE"
 echo "Starting cron..."
 exec cron -f
-

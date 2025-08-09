@@ -7,12 +7,11 @@ services:
       dockerfile: docker/scheduler/Dockerfile
     image: library-data-scheduler
     environment:
-      - LIBRARY_DATA_DIR=/app/library-data
+      - LIBRARY_DATA_DIR=/app/data
       - SCHEDULE_NIGHTLY=0 2 * * *
       # Optional: LT_TOKEN, UA, ENRICH_LIMIT, ENRICH_SLEEP, SINCE, COLLECTIONS, TAGS, SEARCH, REBUILD_FTS
       - LT_TOKEN=${LT_TOKEN:-}
       - UA=${UA:-library-data/levels (+mailto:you@example.com)}
     volumes:
-      - ./library-data:/app/library-data
+      - ./data:/app/data
     restart: unless-stopped
-

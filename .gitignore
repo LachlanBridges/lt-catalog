@@ -32,7 +32,6 @@ dist/
 *.sqlite3
 *.db
 data/db/*.db
-library-data/data/db/*.db
 
 # Logs
 *.log
@@ -42,15 +41,12 @@ tmp/
 *.temp
 
 # Exported data
-exports/
-!exports/.gitkeep
-library-data/exports/
-!library-data/exports/.gitkeep
+data/exports/
 
 # Environment / secrets
 .env
 .env.*
-library-data/.env
+data/secrets/
 *.token
 *.key
 *.crt
@@ -74,4 +70,5 @@ Thumbs.db
 browser_state.json
 scripts/*.state.json
 secrets/
-library-data/secrets/
+data/secrets/
+library-data/
