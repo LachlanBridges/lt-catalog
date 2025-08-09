@@ -1,5 +1,5 @@
-import time, xml.etree.ElementTree as ET, requests, os
-from . import settings
+import time, xml.etree.ElementTree as ET, requests
+from library_data.scripts import settings
 
 UA = settings.UA
 

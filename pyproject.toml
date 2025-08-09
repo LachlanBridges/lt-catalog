@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "library-data"
+version = "0.1.0"
+description = "LibraryThing catalog tools (ingest, enrich, export)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Proprietary"}
+authors = [{ name = "", email = "" }]
+dependencies = [
+  "requests>=2.28",
+  "python-dotenv>=1.0",
+  "playwright>=1.40",
+]
+
+[project.scripts]
+library-data-ingest = "library_data.scripts.ingest:main"
+library-data-enrich-levels = "library_data.scripts.enrich_levels:main"
+library-data-export-lt = "library_data.scripts.export_lt:run_export"
+library-data-capture-state = "library_data.scripts.capture_playwright_state:main"
+library-data-nightly = "library_data.scripts.nightly:main"
+
+[tool.setuptools.packages.find]
+include = ["library_data*"]

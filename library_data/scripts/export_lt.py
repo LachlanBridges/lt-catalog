@@ -4,9 +4,7 @@ import argparse
 import re
 
 from playwright.sync_api import sync_playwright
-
-SECRETS_DIR = Path(__file__).parent.parent / "secrets"
-OUTDIR = Path(__file__).parent.parent / "exports"
+from library_data.config import SECRETS_DIR, EXPORTS_DIR, ensure_dirs
 
 STATE = SECRETS_DIR / ".state.json"
 EXPORT_URL = "https://www.librarything.com/export.php"
@@ -82,10 +80,10 @@ def pick_collections(page, collections: list[str] | None):
 def run_export(fmt="json", since=None, collections=None, tags=None, search=None, headed=False):
     if not STATE.exists():
         raise SystemExit(f".state.json not found at {STATE}. Run your state capture first.")
-    OUTDIR.mkdir(parents=True, exist_ok=True)
+    ensure_dirs()
 
     out_name = build_filename(fmt, since, collections, tags, search)
-    out_path = OUTDIR / out_name
+    out_path = EXPORTS_DIR / out_name
 
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=not headed, channel="msedge")
@@ -153,6 +151,7 @@ def run_export(fmt="json", since=None, collections=None, tags=None, search=None,
         print(f"saved {out_path}")
 
         ctx.close(); browser.close()
+    return str(out_path)
 
 def parse_args():
     ap = argparse.ArgumentParser(description="LibraryThing export via Playwright (headless by default).")

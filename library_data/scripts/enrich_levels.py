@@ -2,20 +2,14 @@ from __future__ import annotations
 import argparse, json, re, time
 from pathlib import Path
 import sqlite3, requests
-
-try:
-    from scripts.isbn_utils import explode_isbns_with_lt, probe_openlibrary_isbns, expand_via_openlibrary
-    from scripts import settings
-except ImportError:
-    import sys
-    sys.path.append(str(Path(__file__).resolve().parent.parent))
-    from scripts.isbn_utils import explode_isbns_with_lt, probe_openlibrary_isbns, expand_via_openlibrary
-    from scripts import settings
+from library_data.lib.isbn_utils import explode_isbns_with_lt, probe_openlibrary_isbns, expand_via_openlibrary
+from library_data.scripts import settings
+from library_data.config import DB_PATH as DB_DEFAULT, ensure_dirs
 
 UA = settings.UA
 
 
-DB_DEFAULT = Path(__file__).resolve().parents[1] / "data" / "db" / "catalog.db"
+DB_DEFAULT = DB_DEFAULT
 
 RE_LEXILE_ANY   = re.compile(r"\b(\d{3,4})\s*[lL]\b")
 RE_LEXILE_RANGE = re.compile(r"\blexile[^0-9]*?(\d{3,4})\s*[-–]\s*(\d{3,4})\b", re.I)
@@ -251,6 +245,7 @@ def main():
     ap.add_argument("--sleep", type=float, default=0.5)
     args = ap.parse_args()
 
+    ensure_dirs()
     con = sqlite3.connect(str(args.db))
     try:
         scanned, wrote = enrich(con, lt_token=args.lt_token, limit=args.limit, sleep=args.sleep)

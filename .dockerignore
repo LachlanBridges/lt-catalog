@@ -1,0 +1,20 @@
+.git
+.gitignore
+__pycache__/
+.venv/
+venv/
+env/
+ENV/
+*.pyc
+*.pyo
+*.pyd
+node_modules/
+dist/
+build/
+*.egg-info/
+
+# Local databases and exports (mount as volume instead)
+library-data/data/db/*.db
+library-data/exports/
+library-data/secrets/
+

@@ -2,8 +2,7 @@
 import argparse, json, sqlite3, sys
 from pathlib import Path
 from typing import Iterable
-
-DB_DEFAULT = Path(__file__).resolve().parents[1] / "data" / "db" / "catalog.db"
+from library_data.config import DB_PATH as DB_DEFAULT, ensure_dirs
 
 SCHEMA_SQL = """
 PRAGMA journal_mode=WAL;
@@ -195,7 +194,7 @@ def main():
     args = ap.parse_args()
 
     db_path = Path(args.db)
-    db_path.parent.mkdir(parents=True, exist_ok=True)
+    ensure_dirs()
     conn = sqlite3.connect(str(db_path))
     try:
         ensure_db(conn)

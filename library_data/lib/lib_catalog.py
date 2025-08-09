@@ -2,8 +2,7 @@
 import json, sqlite3
 from pathlib import Path
 from typing import Optional, List, Dict, Any, Iterable
-
-DB_DEFAULT = Path(__file__).resolve().parents[1] / "data" / "db" / "catalog.db"
+from library_data.config import DB_PATH as DB_DEFAULT
 
 def _conn(db_path: str | Path) -> sqlite3.Connection:
     con = sqlite3.connect(str(db_path))
@@ -112,7 +111,7 @@ def upsert_from_json(
     Convenience: upsert from an in-memory JSON export.
     """
     import tempfile
-    from ingest import upsert_books  # reuse logic
+from library_data.scripts.ingest import upsert_books  # reuse logic
 
     if isinstance(json_obj, dict):
         items = json_obj.items()
@@ -121,6 +120,6 @@ def upsert_from_json(
 
     with _conn(db_path) as con:
         # ensure schema
-        from ingest import ensure_db  # lazy to avoid circulars
+        from library_data.scripts.ingest import ensure_db  # lazy to avoid circulars
         ensure_db(con)
         return upsert_books(con, items)

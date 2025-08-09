@@ -1,12 +1,11 @@
-from pathlib import Path
 from playwright.sync_api import sync_playwright
-
-SECRETS_DIR = Path(__file__).parent.parent / "secrets"
+from library_data.config import SECRETS_DIR, ensure_dirs
 
 STATE = SECRETS_DIR / ".state.json"
 PROFILE = SECRETS_DIR / ".lt_profile"  # persistent profile dir
 
 def main():
+    ensure_dirs()
     with sync_playwright() as pw:
         ctx = pw.chromium.launch_persistent_context(
             user_data_dir=str(PROFILE),
